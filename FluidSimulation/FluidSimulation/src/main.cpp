@@ -7,7 +7,6 @@
 #include <GL/freeglut.h>
 #include <iostream>
 
-#include "maths_funcs.h" //Anton's math class
 #include "teapot.h" // teapot mesh
 #include <string> 
 #include <fstream>
@@ -161,7 +160,7 @@ void generateObjectBufferTeapot () {
 
 void display(){
 
-	// tell GL to only draw onto a pixel if the shape is closer to the viewer
+	// tell GL to only draw onto a pixel if the shape is closer to the viewer	
 	glEnable (GL_DEPTH_TEST); // enable depth-testing
 	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glClearColor (0.5f, 0.5f, 0.5f, 1.0f);
@@ -179,14 +178,14 @@ void display(){
 	//The model transform rotates the object by 45 degrees, the view transform sets the camera at -40 on the z-axis, and the perspective projection is setup using Antons method
 
 	// bottom-left
-	mat4 view = translate (identity_mat4 (), vec3 (0.0, 0.0, -40.0));
-	mat4 persp_proj = perspective(45.0, (float)width/(float)height, 0.1, 100.0);
-	mat4 model = rotate_z_deg (identity_mat4 (), 45);
+	//mat4 view = translate (identity_mat4 (), vec3 (0.0, 0.0, -40.0));
+	//mat4 persp_proj = perspective(45.0, (float)width/(float)height, 0.1, 100.0);
+	//mat4 model = rotate_z_deg (identity_mat4 (), 45);
 
 	glViewport (0, 0, width / 2, height / 2);
-	glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, persp_proj.m);
-	glUniformMatrix4fv (view_mat_location, 1, GL_FALSE, view.m);
-	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, model.m);
+	//glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, persp_proj.m);
+	//glUniformMatrix4fv (view_mat_location, 1, GL_FALSE, view.m);
+	//glUniformMatrix4fv (matrix_location, 1, GL_FALSE, model.m);
 	glDrawArrays (GL_TRIANGLES, 0, teapot_vertex_count);
 
 	// bottom-right
