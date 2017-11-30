@@ -17,8 +17,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 
-// Macro for indexing vertex buffer
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+// MINE
+#include "Controller.h"
+#include "Configuration.h"
+
+CController mainController;
+// END_MINE
+
 
 using namespace std;
 GLuint shaderProgramID;
@@ -125,10 +130,6 @@ GLuint CompileShaders()
 // VBO Functions - click on + to expand
 #pragma region VBO_FUNCTIONS
 
-
-
-
-
 void generateObjectBufferTeapot () {
 	GLuint vp_vbo = 0;
 
@@ -165,13 +166,13 @@ void display(){
 	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glClearColor (0.5f, 0.5f, 0.5f, 1.0f);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram (shaderProgramID);
+	//glUseProgram (shaderProgramID);
 
 
-	//Declare your uniform variables that will be used in your shader
-	int matrix_location = glGetUniformLocation (shaderProgramID, "model");
-	int view_mat_location = glGetUniformLocation (shaderProgramID, "view");
-	int proj_mat_location = glGetUniformLocation (shaderProgramID, "proj");
+	////Declare your uniform variables that will be used in your shader
+	//int matrix_location = glGetUniformLocation (shaderProgramID, "model");
+	//int view_mat_location = glGetUniformLocation (shaderProgramID, "view");
+	//int proj_mat_location = glGetUniformLocation (shaderProgramID, "proj");
 	
 
 	//Here is where the code for the viewport lab will go, to get you started I have drawn a t-pot in the bottom left
@@ -182,11 +183,11 @@ void display(){
 	//mat4 persp_proj = perspective(45.0, (float)width/(float)height, 0.1, 100.0);
 	//mat4 model = rotate_z_deg (identity_mat4 (), 45);
 
-	glViewport (0, 0, width / 2, height / 2);
+	//glViewport (0, 0, width / 2, height / 2);
 	//glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, persp_proj.m);
 	//glUniformMatrix4fv (view_mat_location, 1, GL_FALSE, view.m);
 	//glUniformMatrix4fv (matrix_location, 1, GL_FALSE, model.m);
-	glDrawArrays (GL_TRIANGLES, 0, teapot_vertex_count);
+	//glDrawArrays (GL_TRIANGLES, 0, teapot_vertex_count);
 
 	// bottom-right
 		
@@ -212,32 +213,24 @@ void updateScene() {
 	glutPostRedisplay();
 }
 
-
-void init()
+void init(int argc, char** argv)
 {
-	// Create 3 vertices that make up a triangle that fits on the viewport 
-	GLfloat vertices[] = {-1.0f, -1.0f, 0.0f, 1.0,
-			1.0f, -1.0f, 0.0f, 1.0, 
-			0.0f, 1.0f, 0.0f, 1.0};
-	// Create a color array that identfies the colors of each vertex (format R, G, B, A)
-	GLfloat colors[] = {0.0f, 1.0f, 0.0f, 1.0f,
-			1.0f, 0.0f, 0.0f, 1.0f,
-			0.0f, 0.0f, 1.0f, 1.0f};
-	// Set up the shaders
-	GLuint shaderProgramID = CompileShaders();
-
-	// load teapot mesh into a vertex buffer array
-	generateObjectBufferTeapot ();
-	
-}
-
-int main(int argc, char** argv){
 
 	// Set up the window
 	glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
-    glutInitWindowSize(width, height);
-    glutCreateWindow("Viewport Teapots");
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(Screen::WIDTH, Screen::HEIGHT);
+	glutCreateWindow("Fluid Simulation");
+
+	mainController.InitializeGL();
+	
+}
+
+int main(int argc, char** argv)
+{
+
+	init(argc, argv);
+
 	// Tell glut where the display function is
 	glutDisplayFunc(display);
 	glutIdleFunc(updateScene);
@@ -250,8 +243,7 @@ int main(int argc, char** argv){
       fprintf(stderr, "Error: '%s'\n", glewGetErrorString(res));
       return 1;
     }
-	// Set up your objects and shaders
-	init();
+
 	// Begin infinite event loop
 	glutMainLoop();
     return 0;
