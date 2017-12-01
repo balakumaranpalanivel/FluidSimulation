@@ -137,6 +137,7 @@
     <ClCompile Include="src\Controller.cpp" />
     <ClCompile Include="src\GridCell.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\SpatialGrid.cpp" />
     <ClCompile Include="src\SPHFluidSimulation.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <ClInclude Include="src\Controller.h" />
     <ClInclude Include="src\GridCell.h" />
     <ClInclude Include="src\GridPoint.h" />
+    <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\SpatialGrid.h" />
     <ClInclude Include="src\SPHFluidSimulation.h" />
     <ClInclude Include="src\SPHPartcile.h" />
