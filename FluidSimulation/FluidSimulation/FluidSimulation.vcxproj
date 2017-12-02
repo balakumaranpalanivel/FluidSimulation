@@ -140,6 +140,7 @@
     <ClCompile Include="src\Quaternion.cpp" />
     <ClCompile Include="src\SpatialGrid.cpp" />
     <ClCompile Include="src\SPHFluidSimulation.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="src\SPHFluidSimulation.h" />
     <ClInclude Include="src\SPHPartcile.h" />
     <ClInclude Include="src\teapot.h" />
+    <ClInclude Include="src\Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="src\shaders\simpleFragmentShader.txt" />
