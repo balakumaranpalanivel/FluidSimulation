@@ -14,7 +14,7 @@ public:
 	bool IsEmpty();
 	std::vector<GridPoint*> GetGridPoints();
 
-	std::vector<GridPoint*> mNeighbours;
+	std::vector<CGridCell*> mNeighbours;
 	int i, j, k;
 
 private:
