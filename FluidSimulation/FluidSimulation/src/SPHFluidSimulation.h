@@ -29,7 +29,50 @@ private:
 	// graphics
 	std::vector<std::array<double, 3>> mFluidGradient;
 
+	// simulation constants
 	double mSmoothingRadius;
+	double mSmoothingRadiusSquared;
+	glm::vec3 mGravityForce;
+	double mCourantSafetyFactor = 1.0;
+	double mMinTimeStep = 1.0 / 240.0;
+	double mGravityMagnitude;
+	double mInitialDensity;
+	double mPressureCoefficient;
+	double mParticleMass;
+	bool mIsMotionDampingEnabled = false;
+	bool mDisplayConsoleOutput = false;
+	double mMotionDampingCoefficient;
+	double mBoundaryDampingCoefficient;
+	double mRatioOfSpecificHeats;
+	double mViscosityCoefficient;
+	double mMaximumVelocity;
+	double mMaximumAcceleration;
+
+	// boundary constraints
+	double mBoundaryForceRadius = 0.1;
+	double mMinBoundaryForce = 0.0;
+	double mMaxBoundaryForce = 0.0;
+	double mXmin = 0.0;
+	double mXmax = 1.0;
+	double mYmin = 0.0;
+	double mYmax = 1.0;
+	double mZmin = 0.0;
+	double mZmax = 1.0;
+	int mBoundaryObstacleID;
+	bool mIsBoundaryObstacleInitialized = false;
+	bool mIsHiddenBoundaryParticlesEnabled = true;
+	bool mIsBoundaryParticlesEnabled = false;
+
+	// graphics
+	double mMaxColorVelocity = 1.0;
+	double mMaxColorAcceleration = 1.0;
+	double mMinColorDensity = 0.0;
+	double mMaxColorDensity = 100.0;
+	double mColorArrivalRadius = 0.5;
+	double mStuckToBoundaryRadius = 0.01;
+	double mStuckToBoundaryAlphaVelocity = 1.0;
+	bool mIsTextureInitialized = false;
+
 	CSpatialGrid mGrid;
 	glm::vec3 mCameraPosition;
 };

@@ -23,7 +23,7 @@ public:
 	const bool DISPLAY_SIMULATION_CONSOLE_OUTPUT = true;
 };
 
-class Graphics
+static class Graphics
 {
 public:
 	const float MIN_COLOR_DENSITY = 0.0;
@@ -36,7 +36,7 @@ public:
 	const bool IS_HIDDEN_BOUNDARY_PARTICLES_ENABLED = true;
 };
 
-class SimulationConfig
+static class SimulationConfig
 {
 public:
 	const float FPS = 120;
