@@ -135,6 +135,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CellHash.cpp" />
     <ClCompile Include="src\Controller.cpp" />
+    <ClCompile Include="src\Gradient.cpp" />
     <ClCompile Include="src\GridCell.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Quaternion.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="src\CellHash.h" />
     <ClInclude Include="src\Configuration.h" />
     <ClInclude Include="src\Controller.h" />
+    <ClInclude Include="src\Gradient.h" />
     <ClInclude Include="src\GridCell.h" />
     <ClInclude Include="src\GridPoint.h" />
     <ClInclude Include="src\Quaternion.h" />

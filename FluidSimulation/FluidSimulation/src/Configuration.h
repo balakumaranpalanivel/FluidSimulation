@@ -35,3 +35,16 @@ public:
 	const float STUCK_TO_BOUNDARY_ALPHA_VELOCITY = 3.0;
 	const bool IS_HIDDEN_BOUNDARY_PARTICLES_ENABLED = true;
 };
+
+class SimulationConfig
+{
+public:
+	const float FPS = 120;
+	const float SMOOTHING_RADIUS = 0.2;
+	const int NUM_PARTICLES = 120000;
+	const float INITIAL_DAMPING_CONSTANT = 2.0;
+	const float FINAL_DAMPING_CONSTANT = 0.0;
+	const bool IS_RENDERING_ENABLED = true;
+	const bool IS_SIMULATION_PAUSED = false;
+	const bool IS_SIMULATION_DRAWN = true;
+};
