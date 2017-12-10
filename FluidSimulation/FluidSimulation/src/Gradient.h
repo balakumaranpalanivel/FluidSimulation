@@ -3,5 +3,5 @@
 #include <array>
 
 namespace Gradients {
-	std::vector<std::array<double, 3>> getSkyblueGradient();
+	std::vector<std::array<double, 3>> GetSkyblueGradient();
 }

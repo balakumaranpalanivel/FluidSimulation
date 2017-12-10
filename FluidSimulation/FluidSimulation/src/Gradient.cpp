@@ -1,7 +1,7 @@
 #include "Gradient.h"
 
 namespace Gradients {
-	std::vector<std::array<double, 3>> getSkyblueGradient() {
+	std::vector<std::array<double, 3>> GetSkyblueGradient() {
 		std::vector<std::array<double, 3>> skyblue;
 		skyblue.push_back({ 0, 0, 0 });
 		skyblue.push_back({ 0, 0, 0.003921568627451 });
