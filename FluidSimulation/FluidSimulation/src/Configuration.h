@@ -23,3 +23,15 @@ public:
 	const bool DISPLAY_SIMULATION_CONSOLE_OUTPUT = true;
 };
 
+class Graphics
+{
+public:
+	const float MIN_COLOR_DENSITY = 0.0;
+	const float MAX_COLOR_DENSITY = 100;
+	const float MAX_COLOR_VELOCITY = 100.0;
+	const float MAX_COLOR_ACCELERATION = 100.0;
+	const float COLOR_ARRIVAL_RADIUS = 0.1;
+	const float STUCK_TO_BOUNDARY_RADIUS = 0.01;
+	const float STUCK_TO_BOUNDARY_ALPHA_VELOCITY = 3.0;
+	const bool IS_HIDDEN_BOUNDARY_PARTICLES_ENABLED = true;
+};
