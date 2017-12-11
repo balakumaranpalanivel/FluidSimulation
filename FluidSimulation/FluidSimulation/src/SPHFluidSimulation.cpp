@@ -101,6 +101,28 @@ void CSPHFluidSimulation::InitBoundaryParticles()
 	points = Utils::TranslatePoints(points, o);
 	obsPoints = Utils::MergePoints(obsPoints, points);
 
+	// x-y (zmin) plane
+	o = glm::vec3(
+		mXmin + 0.5*xWidth,
+		mYmin + 0.5*xWidth,
+		0.0);
+	points = Utils::CreatePointPanel(xWidth, yWidth, pad, layers, xDir, yDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
+
+	// x-y (zmax) plane
+	o = glm::vec3(
+		mXmin + 0.5*xWidth,
+		mYmin + 0.5*xWidth,
+		mZmin + zWidth
+	);
+	points = Utils::CreatePointPanel(xWidth, yWidth, pad, layers, xDir, yDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
+
+
+
+
 }
 
 void CSPHFluidSimulation::RemoveObstacle(int obstacleID)
