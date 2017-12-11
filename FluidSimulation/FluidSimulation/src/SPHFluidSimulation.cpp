@@ -154,13 +154,41 @@ void CSPHFluidSimulation::InitBoundaryParticles()
 
 void CSPHFluidSimulation::RemoveObstacle(int obstacleID)
 {
-	// TODO
-	
+	if (mObstaclesByID.find(obstacleID) == mObstaclesByID.end())
+	{
+		return;
+	}
+	mIsSPHParticleRemoved = true;
+
+	SPHObstacle* o = mObstaclesByID[obstacleID];
+	mObstaclesByID.erase(obstacleID);
+
+	SPHParticle* p;
+	for (unsigned int i = 0; i < o->particles.size(); i++)
+	{
+		p = o->particles[i];
+		mGrid.RemovePoint(p->gridID);
+		mParticlesByGridID.erase(p->gridID);
+		p->isMarkedForRemoval = true;
+	}
+
+	for (unsigned int i = 0; i < mObstacles.size(); i++)
+	{
+		SPHObstacle* op = mObstacles[i];
+		if (op->id == o->id)
+		{
+			mObstacles.erase(mObstacles.begin() + i);
+			break;
+		}
+	}
+
+	delete o;
 }
 
 int CSPHFluidSimulation::AddObstacleParticles(std::vector<glm::vec3> points)
 {
 	// TODO
+	return 0;
 }
 
 void CSPHFluidSimulation::InitKernelConstants()

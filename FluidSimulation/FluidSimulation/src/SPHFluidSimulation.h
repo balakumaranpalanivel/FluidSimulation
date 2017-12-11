@@ -80,5 +80,8 @@ private:
 	CSpatialGrid mGrid;
 	glm::vec3 mCameraPosition;
 	std::unordered_map<int, SPHObstacle*> mObstaclesByID;
+	std::unordered_map<int, SPHParticle*> mParticlesByGridID;
+	std::vector<SPHObstacle*> mObstacles;
+	bool mIsSPHParticleRemoved = false;
 
 };

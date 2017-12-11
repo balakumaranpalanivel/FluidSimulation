@@ -154,6 +154,7 @@
     <ClInclude Include="src\Quaternion.h" />
     <ClInclude Include="src\SpatialGrid.h" />
     <ClInclude Include="src\SPHFluidSimulation.h" />
+    <ClInclude Include="src\SPHObstacle.h" />
     <ClInclude Include="src\SPHPartcile.h" />
     <ClInclude Include="src\teapot.h" />
     <ClInclude Include="src\Utils.h" />
