@@ -1,6 +1,7 @@
 #pragma once
 #include "SpatialGrid.h"
 #include "Gradient.h"
+#include "SPHObstacle.h"
 
 class CSPHFluidSimulation
 {
@@ -13,6 +14,7 @@ public:
 	//void Draw();
 	//void DrawBounds();
 
+	int AddObstacleParticles(std::vector<glm::vec3> points);
 	void RemoveObstacle(int id);
 
 private:
@@ -77,4 +79,6 @@ private:
 
 	CSpatialGrid mGrid;
 	glm::vec3 mCameraPosition;
+	std::unordered_map<int, SPHObstacle*> mObstaclesByID;
+
 };

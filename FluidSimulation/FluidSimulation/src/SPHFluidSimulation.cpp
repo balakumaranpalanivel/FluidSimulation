@@ -120,8 +120,35 @@ void CSPHFluidSimulation::InitBoundaryParticles()
 	points = Utils::TranslatePoints(points, o);
 	obsPoints = Utils::MergePoints(obsPoints, points);
 
+	// y-z (xmin) plane
+	o = glm::vec3(
+		0.0,
+		mYmin + 0.5*xWidth,
+		mZmin + 0.5*zWidth);
+	points = Utils::CreatePointPanel(yWidth, zWidth, pad, layers, yDir, zDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
 
+	// y-z (xmax) plane
+	o = glm::vec3(
+		mXmin + xWidth,
+		mYmin + 0.5*xWidth,
+		mZmin + 0.5*zWidth);
+	points = Utils::CreatePointPanel(yWidth, zWidth, pad, layers, yDir, zDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
 
+	mBoundaryObstacleID = AddObstacleParticles(obsPoints);
+
+	SPHObstacle *obs = mObstaclesByID[mBoundaryObstacleID];
+	obs->isVisible = false;
+
+	for (unsigned int i=0; i<obs->particles.size(); i++)
+	{
+		obs->particles[i]->isVisible = false;
+	}
+
+	mIsBoundaryObstacleInitialized = true;
 
 }
 
@@ -129,6 +156,11 @@ void CSPHFluidSimulation::RemoveObstacle(int obstacleID)
 {
 	// TODO
 	
+}
+
+int CSPHFluidSimulation::AddObstacleParticles(std::vector<glm::vec3> points)
+{
+	// TODO
 }
 
 void CSPHFluidSimulation::InitKernelConstants()
