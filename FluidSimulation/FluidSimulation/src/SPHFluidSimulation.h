@@ -13,6 +13,8 @@ public:
 	//void Draw();
 	//void DrawBounds();
 
+	void RemoveObstacle(int id);
+
 private:
 	// Initialise
 	void InitSimulationConstants();

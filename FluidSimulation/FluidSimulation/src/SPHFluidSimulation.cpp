@@ -59,7 +59,54 @@ void CSPHFluidSimulation::InitSimulationConstants()
 
 void CSPHFluidSimulation::InitBoundaryParticles()
 {
-	// TODO - 
+	// CONTINUE
+	if (!mIsBoundaryParticlesEnabled)
+	{
+		return;
+	}
+
+	if (mIsBoundaryObstacleInitialized)
+	{
+		RemoveObstacle(mBoundaryObstacleID);
+	}
+
+	std::vector<glm::vec3> obsPoints;
+	glm::vec3 xDir = glm::vec3(1.0, 0.0, 0.0);
+	glm::vec3 yDir = glm::vec3(0.0, 1.0, 0.0);
+	glm::vec3 zDir = glm::vec3(0.0, 0.0, 1.0);
+
+	float xWidth = mXmax - mXmin;
+	float yWidth = mYmax - mYmin;
+	float zWidth = mZmax - mZmin;
+	float pad = mSmoothingRadius;
+	int layers = 1;
+	bool isStaggered = true;
+
+	// x-z (ymin) plane
+	glm::vec3 o = glm::vec3(
+		mXmin + 0.5*xWidth, 
+		0.0,
+		mZmin + 0.5*zWidth);
+	std::vector<glm::vec3> points = Utils::CreatePointPanel(xWidth, zWidth, pad, 
+		layers, xDir, zDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
+
+	// x-z (ymax) plane
+	o = glm::vec3(
+		mXmin + 0.5*xWidth,
+		mYmin + yWidth,
+		mZmin + 0.5*zWidth);
+	points = Utils::CreatePointPanel(xWidth, zWidth, pad, layers, xDir, zDir, isStaggered);
+	points = Utils::TranslatePoints(points, o);
+	obsPoints = Utils::MergePoints(obsPoints, points);
+
+}
+
+void CSPHFluidSimulation::RemoveObstacle(int obstacleID)
+{
+	// TODO
+	
 }
 
 void CSPHFluidSimulation::InitKernelConstants()
