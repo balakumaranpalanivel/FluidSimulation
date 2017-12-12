@@ -22,6 +22,11 @@ private:
 	void InitSimulationConstants();
 	void InitKernelConstants();
 
+	SPHParticle* CreateSPHParticle(glm::vec3 pos, glm::vec3 velocity);
+	SPHParticle* CreateSPHObstacleParticle(glm::vec3 pos);
+	SPHParticle* AddObstacleParticle(glm::vec3 pos);
+	int GetUniqueObstacleID();
+
 	// Simulation
 	void InitBoundaryParticles();
 
@@ -81,6 +86,7 @@ private:
 	glm::vec3 mCameraPosition;
 	std::unordered_map<int, SPHObstacle*> mObstaclesByID;
 	std::unordered_map<int, SPHParticle*> mParticlesByGridID;
+	std::vector<SPHParticle*> mObstacleParticles;
 	std::vector<SPHObstacle*> mObstacles;
 	bool mIsSPHParticleRemoved = false;
 

@@ -187,8 +187,21 @@ void CSPHFluidSimulation::RemoveObstacle(int obstacleID)
 
 int CSPHFluidSimulation::AddObstacleParticles(std::vector<glm::vec3> points)
 {
-	// TODO
-	return 0;
+	SPHObstacle *obs = new SPHObstacle();
+	obs->id = GetUniqueObstacleID();
+
+	SPHParticle *p;
+	for (unsigned int i = 0; i < points.size(); i++)
+	{
+		p = AddObstacleParticle(points[i]);
+		obs->particles.push_back(p);
+	}
+	obstacles.push_back(obs);
+
+	std::pair<int, SPHObstacle*> pair(obs->id, obs);
+	mObstaclesByID.insert(pair);
+
+	return obs->id;
 }
 
 void CSPHFluidSimulation::InitKernelConstants()
@@ -198,4 +211,24 @@ void CSPHFluidSimulation::InitKernelConstants()
 	mPoly6Coefficient = 315.0 / (64.0*pi*powf(mSmoothingRadius, 9.0));
 	mSpikeyGradCoefficient = -45.0 / (pi*powf(mSmoothingRadius, 6.0));
 	mViscocityLaplacianCoefficient = 45.0 / (pi*powf(mSmoothingRadius, 6.0f));
+}
+
+SPHParticle* CSPHFluidSimulation::CreateSPHParticle(glm::vec3 pos, glm::vec3 velocity)
+{
+	return NULL;
+}
+
+SPHParticle* CSPHFluidSimulation::CreateSPHObstacleParticle(glm::vec3 pos)
+{
+
+}
+
+int CSPHFluidSimulation::GetUniqueObstacleID()
+{
+
+}
+
+SPHParticle* CSPHFluidSimulation::AddObstacleParticle(glm::vec3 pos)
+{
+
 }
