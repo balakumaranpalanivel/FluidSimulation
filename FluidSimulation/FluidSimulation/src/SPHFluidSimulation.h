@@ -30,6 +30,7 @@ private:
 
 	// Simulation
 	void InitBoundaryParticles();
+	inline double EvaluateSpeedOfSound(SPHParticle *sp);
 
 	// kernel constants
 	double mPoly6Coefficient;

@@ -265,3 +265,13 @@ SPHParticle* CSPHFluidSimulation::AddObstacleParticle(glm::vec3 pos)
 
 	return sp;
 }
+
+inline double CSPHFluidSimulation::EvaluateSpeedOfSound(SPHParticle *sp)
+{
+	double sqr = mRatioOfSpecificHeats * (sp->pressure) / sp->denstiy;
+	if (sqr < 0)
+	{
+		sqr = -sqr;
+	}
+	return sqrt(sqr);
+}
