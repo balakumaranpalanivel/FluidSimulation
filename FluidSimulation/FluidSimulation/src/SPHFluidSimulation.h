@@ -26,6 +26,7 @@ private:
 	SPHParticle* CreateSPHObstacleParticle(glm::vec3 pos);
 	SPHParticle* AddObstacleParticle(glm::vec3 pos);
 	int GetUniqueObstacleID();
+	int mCurrentObstacleID = 0;
 
 	// Simulation
 	void InitBoundaryParticles();
@@ -88,6 +89,7 @@ private:
 	std::unordered_map<int, SPHObstacle*> mObstaclesByID;
 	std::unordered_map<int, SPHParticle*> mParticlesByGridID;
 	std::vector<SPHParticle*> mObstacleParticles;
+	std::vector<SPHParticle*> mAllParticles;
 	std::vector<SPHObstacle*> mObstacles;
 	bool mIsSPHParticleRemoved = false;
 

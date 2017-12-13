@@ -240,15 +240,28 @@ SPHParticle* CSPHFluidSimulation::CreateSPHParticle(glm::vec3 pos, glm::vec3 vel
 
 SPHParticle* CSPHFluidSimulation::CreateSPHObstacleParticle(glm::vec3 pos)
 {
-	return NULL;
+	SPHParticle *p = CreateSPHParticle(pos, glm::vec3(0.0, 0.0, 0.0));
+	return p;
 }
 
 int CSPHFluidSimulation::GetUniqueObstacleID()
 {
-	return 0;
+	int id = mCurrentObstacleID;
+	mCurrentObstacleID++;
+	return id;
 }
 
 SPHParticle* CSPHFluidSimulation::AddObstacleParticle(glm::vec3 pos)
 {
-	return NULL;
+	SPHParticle *sp = CreateSPHObstacleParticle(pos);
+	sp->isObstacle = true;
+
+	sp->gridID = mGrid.InsertPoint(sp->position);
+	std::pair<int, SPHParticle*> pair(sp->gridID, sp);
+	mParticlesByGridID.insert(pair);
+
+	mObstacleParticles.push_back(sp);
+	mAllParticles.push_back(sp);
+
+	return sp;
 }
