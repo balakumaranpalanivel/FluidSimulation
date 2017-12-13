@@ -284,3 +284,42 @@ inline double CSPHFluidSimulation::EvaluateSpeedOfSoundSquared(SPHParticle *sp)
 	}
 	return mRatioOfSpecificHeats * (sp->pressure) / sp->denstiy;
 }
+
+void CSPHFluidSimulation::RemoveSPHParticlesMarkedForRemoval()
+{
+	if (mAllParticles.size() == 0 || !mIsSPHParticleRemoved)
+	{
+		return;
+	}
+
+	SPHParticle *p;
+	for (int i = (int)mFluidParticles.size() - 1; i >= 0; i--)
+	{
+		if (mFluidParticles[i]->isMarkedForRemoval)
+		{
+			p = mFluidParticles[i];
+			mFluidParticles.erase(mFluidParticles.begin() + i);
+		}
+	}
+
+	for (int i = (int)mObstacleParticles.size() - 1; i >= 0; i--)
+	{
+		if (mObstacleParticles[i]->isMarkedForRemoval)
+		{
+			p = mObstacleParticles[i];
+			mObstacleParticles.erase(mObstacleParticles.begin() + i);
+		}
+	}
+
+	for (int i = (int)mAllParticles.size() - 1; i >= 0; i--)
+	{
+		if (mAllParticles[i]->isMarkedForRemoval)
+		{
+			p = mAllParticles[i];
+			mAllParticles.erase(mAllParticles.begin() + i);
+			delete p;
+		}
+	}
+
+	mIsSPHParticleRemoved = false;
+}

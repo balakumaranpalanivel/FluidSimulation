@@ -32,6 +32,7 @@ private:
 	void InitBoundaryParticles();
 	inline double EvaluateSpeedOfSound(SPHParticle *sp);
 	inline double EvaluateSpeedOfSoundSquared(SPHParticle *sp);
+	void RemoveSPHParticlesMarkedForRemoval();
 
 	// kernel constants
 	double mPoly6Coefficient;
@@ -93,6 +94,7 @@ private:
 	std::vector<SPHParticle*> mObstacleParticles;
 	std::vector<SPHParticle*> mAllParticles;
 	std::vector<SPHObstacle*> mObstacles;
+	std::vector<SPHParticle*> mFluidParticles;
 	bool mIsSPHParticleRemoved = false;
 
 };
