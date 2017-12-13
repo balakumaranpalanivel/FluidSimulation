@@ -275,3 +275,12 @@ inline double CSPHFluidSimulation::EvaluateSpeedOfSound(SPHParticle *sp)
 	}
 	return sqrt(sqr);
 }
+
+inline double CSPHFluidSimulation::EvaluateSpeedOfSoundSquared(SPHParticle *sp)
+{
+	if (sp->denstiy < 0.00001)
+	{
+		return 0.0;
+	}
+	return mRatioOfSpecificHeats * (sp->pressure) / sp->denstiy;
+}
