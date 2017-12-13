@@ -215,7 +215,27 @@ void CSPHFluidSimulation::InitKernelConstants()
 
 SPHParticle* CSPHFluidSimulation::CreateSPHParticle(glm::vec3 pos, glm::vec3 velocity)
 {
-	return NULL;
+	SPHParticle *s = new SPHParticle();
+
+	s->position = pos;
+	s->velocity = velocity;
+	s->acceleration = glm::vec3(0.0, 0.0, 0.0);
+
+	// create pressure offset from initial pressure
+	// uniform densties will cause uniform pressure of 0, meaning no acceleration
+	s->denstiy = mInitialDensity;
+	
+	// mass of sphere
+	s->mass = mParticleMass;
+
+	// initial pressure will be calculated once all particles are in place
+	s->pressure = 0.0;
+
+	// graphics
+	s->color = glm::vec3(1.0, 1.0, 1.0);
+	s->colorDensity = s->denstiy;
+
+	return s;
 }
 
 SPHParticle* CSPHFluidSimulation::CreateSPHObstacleParticle(glm::vec3 pos)
