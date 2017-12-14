@@ -362,3 +362,14 @@ void CSPHFluidSimulation::UpdateObstacleVelocity(double dt)
 		}
 	}
 }
+
+void CSPHFluidSimulation::UpdateGrid()
+{
+	SPHParticle *sp;
+	for (unsigned int i = 0; i < mAllParticles.size(); i++)
+	{
+		sp = mAllParticles[i];
+		mGrid.MovePoint(sp->gridID, sp->position);
+	}
+	mGrid.Update();
+}

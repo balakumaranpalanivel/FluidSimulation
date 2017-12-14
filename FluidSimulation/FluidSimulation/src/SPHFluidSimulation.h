@@ -35,6 +35,7 @@ private:
 	void RemoveSPHParticlesMarkedForRemoval();
 	void UpdateFluidConstants();
 	void UpdateObstacleVelocity(double dt);
+	void UpdateGrid();
 
 	// kernel constants
 	double mPoly6Coefficient;
