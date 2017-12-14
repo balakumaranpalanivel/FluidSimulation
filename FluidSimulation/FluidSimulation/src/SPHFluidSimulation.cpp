@@ -323,3 +323,8 @@ void CSPHFluidSimulation::RemoveSPHParticlesMarkedForRemoval()
 
 	mIsSPHParticleRemoved = false;
 }
+
+void CSPHFluidSimulation::UpdateFluidConstants()
+{
+	InitSimulationConstants();
+}

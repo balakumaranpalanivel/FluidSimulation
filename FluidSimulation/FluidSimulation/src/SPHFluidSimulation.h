@@ -33,6 +33,7 @@ private:
 	inline double EvaluateSpeedOfSound(SPHParticle *sp);
 	inline double EvaluateSpeedOfSoundSquared(SPHParticle *sp);
 	void RemoveSPHParticlesMarkedForRemoval();
+	void UpdateFluidConstants();
 
 	// kernel constants
 	double mPoly6Coefficient;
