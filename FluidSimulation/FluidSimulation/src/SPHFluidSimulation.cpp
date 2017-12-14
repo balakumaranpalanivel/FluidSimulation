@@ -219,6 +219,7 @@ SPHParticle* CSPHFluidSimulation::CreateSPHParticle(glm::vec3 pos, glm::vec3 vel
 
 	s->position = pos;
 	s->velocity = velocity;
+	s->prevPosition = pos;
 	s->acceleration = glm::vec3(0.0, 0.0, 0.0);
 
 	// create pressure offset from initial pressure
@@ -327,4 +328,37 @@ void CSPHFluidSimulation::RemoveSPHParticlesMarkedForRemoval()
 void CSPHFluidSimulation::UpdateFluidConstants()
 {
 	InitSimulationConstants();
+}
+
+void CSPHFluidSimulation::UpdateObstacleVelocity(double dt)
+{
+	SPHObstacle *obs;
+	SPHParticle *sp;
+	glm::vec3 trans;
+	
+	for (unsigned int i = 0; i < mObstacles.size(); i++)
+	{
+		obs = mObstacles[i];
+		for (unsigned int j = 0; i < obs->particles.size(); j++)
+		{
+			sp = obs->particles[j];
+			if (sp->position == sp->prevPosition)
+			{
+				sp->velocity = glm::vec3(0.0, 0.0, 0.0);
+			}
+
+			trans = sp->position - sp->prevPosition;
+			double dist = glm::length(trans);
+			double eps = 0.00000001;
+			if (dist > eps)
+			{
+				float speed = fmin((dist / dt), mMaximumVelocity);
+				sp->velocity = (trans / (float)dist)*speed;
+			}
+			else
+			{
+				sp->velocity = sp->position;
+			}
+		}
+	}
 }
