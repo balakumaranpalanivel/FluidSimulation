@@ -373,3 +373,45 @@ void CSPHFluidSimulation::UpdateGrid()
 	}
 	mGrid.Update();
 }
+
+double CSPHFluidSimulation::CalculateTimeStep()
+{
+	double maxvsq = 0.0;	// max velocity squared
+	double maxcsq = 0.0;	// max speed of sound squard
+	double maxasq = 0.0;	// max acceleration squared
+
+	SPHParticle *sp;
+	for (unsigned int i = 0; i < mFluidParticles.size(); i++)
+	{
+		sp = mFluidParticles[i];
+		double vsq = glm::dot(sp->velocity, sp->velocity);
+		double asq = glm::dot(sp->acceleration, sp->acceleration);
+		double csq = EvaluateSpeedOfSoundSquared(sp);
+		
+		if (vsq > maxvsq)
+		{
+			maxvsq = vsq;
+		}
+
+		if (csq > maxcsq)
+		{
+			maxcsq = csq;
+		}
+
+		if (asq > maxasq)
+		{
+			maxasq = asq;
+		}
+	}
+
+	double maxv = sqrt(maxvsq);
+	double maxc = sqrt(maxcsq);
+	double maxa = sqrt(maxasq);
+
+	double vStep = mCourantSafetyFactor*mSmoothingRadius / fmax(1.0, maxv);
+	double cStep = mCourantSafetyFactor*mSmoothingRadius / maxc;
+	double aStep = sqrt(mSmoothingRadius / maxa);
+	double tempMin = fmin(vStep, cStep);
+
+	return fmax(mMinTimeStep, fmin(tempMin, aStep));
+}

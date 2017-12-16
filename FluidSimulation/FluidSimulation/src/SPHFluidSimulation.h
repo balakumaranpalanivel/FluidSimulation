@@ -36,6 +36,7 @@ private:
 	void UpdateFluidConstants();
 	void UpdateObstacleVelocity(double dt);
 	void UpdateGrid();
+	double CalculateTimeStep();
 
 	// kernel constants
 	double mPoly6Coefficient;
