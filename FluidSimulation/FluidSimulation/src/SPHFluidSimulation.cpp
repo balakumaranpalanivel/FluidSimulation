@@ -453,3 +453,79 @@ void CSPHFluidSimulation::UpdateFluidDensityAndPressure()
 		pi->pressure = mPressureCoefficient*(pi->denstiy - mInitialDensity);
 	}
 }
+
+void CSPHFluidSimulation::UpdateFluidAcceleration()
+{
+	SPHParticle *pi, *pj;
+	glm::vec3 acc;
+	glm::vec3 r;
+	glm::vec3 vdiff;
+	for (unsigned int i = 0; i < mFluidParticles.size(); i++)
+	{
+		pi = mFluidParticles[i];
+		acc = glm::vec3(0.0, 0.0, 0.0);
+
+		for (unsigned int j = 0; i < pi->neighbours.size(); j++)
+		{
+			pj = pi->neighbours[j];
+			r = pi->position - pj->position;
+			double dist = glm::length(r);
+
+			if (dist == 0.0)
+			{
+				continue;
+			}
+
+			float inv = 1 / dist;
+			r = inv*r;
+
+			// acceleration due to pressure
+			float diff = mSmoothingRadius - dist;
+			float spikey = mSpikeyGradCoefficient*diff*diff;
+			float massRatio = pj->mass / pi->mass;
+			float pterm = (pi->pressure + pj->pressure) / (2 * pi->denstiy*pj->denstiy);
+			acc -= (float)(massRatio*pterm*spikey)*r;
+
+			// acceleration due to viscosity
+			if (!pj->isObstacle)
+			{
+				float lap = mViscocityLaplacianCoefficient*diff;
+				vdiff = pj->velocity - pi->velocity;
+				acc += (float)(mViscosityCoefficient*massRatio*(1 / pj->denstiy)*lap)*vdiff;
+			}
+		}
+
+		// acceleration due to gravity
+		acc += mGravityForce;
+
+		// acceleration due to simulation bounds
+		acc += CalculateBoundaryAcceleration(pi);
+
+		// motion damping
+		double mag = glm::length(acc);
+		if (mIsMotionDampingEnabled)
+		{
+			glm::vec3 damp = pi->velocity * (float)mMotionDampingCoefficient;
+			if (glm::length(damp) > mag)
+			{
+				acc = glm::vec3(0.0, 0.0, 0.0);
+			}
+			else
+			{
+				acc -= damp;
+			}
+		}
+
+		if (mag > mMaximumAcceleration)
+		{
+			acc = (acc / (float)mag)*(float)mMaximumAcceleration;
+		}
+
+		pi->acceleration = acc;
+	}
+}
+
+glm::vec3 CSPHFluidSimulation::CalculateBoundaryAcceleration(SPHParticle *sp))
+{
+
+}

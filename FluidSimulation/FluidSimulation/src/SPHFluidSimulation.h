@@ -39,6 +39,9 @@ private:
 	double CalculateTimeStep();
 	void UpdateNearestNeighbours();
 	void UpdateFluidDensityAndPressure();
+	void UpdateFluidAcceleration();
+	glm::vec3 CalculateBoundaryAcceleration(SPHParticle *sp);
+
 
 	// kernel constants
 	double mPoly6Coefficient;
