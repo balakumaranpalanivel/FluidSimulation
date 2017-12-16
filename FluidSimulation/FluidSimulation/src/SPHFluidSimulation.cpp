@@ -415,3 +415,18 @@ double CSPHFluidSimulation::CalculateTimeStep()
 
 	return fmax(mMinTimeStep, fmin(tempMin, aStep));
 }
+
+void CSPHFluidSimulation::UpdateNearestNeighbours()
+{
+	SPHParticle *sp;
+	for (unsigned int i = 0; i < mAllParticles.size(); i++)
+	{
+		sp = mAllParticles[i];
+		sp->neighbours.clear();
+		std::vector<int> refs = mGrid.GetIDsInRadiusOfPoint(sp->gridID, mSmoothingRadius);
+		for (unsigned int j = 0; i < refs.size(); j++)
+		{
+			sp->neighbours.push_back(mParticlesByGridID[refs[j]]);
+		}
+	}
+}

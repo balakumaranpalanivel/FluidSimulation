@@ -37,6 +37,7 @@ private:
 	void UpdateObstacleVelocity(double dt);
 	void UpdateGrid();
 	double CalculateTimeStep();
+	void UpdateNearestNeighbours();
 
 	// kernel constants
 	double mPoly6Coefficient;
