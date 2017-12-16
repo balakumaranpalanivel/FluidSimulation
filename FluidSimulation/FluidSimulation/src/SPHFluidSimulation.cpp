@@ -525,7 +525,56 @@ void CSPHFluidSimulation::UpdateFluidAcceleration()
 	}
 }
 
-glm::vec3 CSPHFluidSimulation::CalculateBoundaryAcceleration(SPHParticle *sp))
+glm::vec3 CSPHFluidSimulation::CalculateBoundaryAcceleration(SPHParticle *sp)
 {
+	double r = mBoundaryForceRadius;
+	double minf = mMinBoundaryForce;
+	double maxf = mMaxBoundaryForce;
 
+	glm::vec3 p = sp->position;
+	glm::vec3 acceleration = glm::vec3(0.0, 0.0, 0.0);
+
+	// X
+	if (p.x < mXmin + r)
+	{
+		double dist = fmax(0.0, p.x - mXmin);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(force / sp->mass, 0.0, 0.0);
+	}
+	else if (p.x < mXmax + r)
+	{
+		double dist = fmax(0.0, mXmax - p.x);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(-force / sp->mass, 0.0, 0.0);
+	}
+
+	// Y
+	if (p.y < mYmin + r)
+	{
+		double dist = fmax(0.0, p.y - mYmin);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(0.0, force / sp->mass, 0.0);
+	}
+	else if (p.y > mYmax - r)
+	{
+		double dist = fmax(0.0, mYmax - p.y);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(0.0, -force / sp->mass, 0.0);
+	}
+
+	// Z
+	if (p.z < mZmin + r)
+	{
+		double dist = fmax(0.0, p.z - mZmin);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(0.0, 0.0, force / sp->mass);
+	}
+	else if (p.z > mZmax - r)
+	{
+		double dist = fmax(0.0, mZmax - p.z);
+		double force = Utils::Lerp(maxf, minf, dist / r);
+		acceleration += glm::vec3(0.0, 0.0, -force / sp->mass);
+	}
+	
+	return acceleration;
 }
