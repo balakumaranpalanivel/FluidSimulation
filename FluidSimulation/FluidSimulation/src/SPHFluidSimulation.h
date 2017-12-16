@@ -38,6 +38,7 @@ private:
 	void UpdateGrid();
 	double CalculateTimeStep();
 	void UpdateNearestNeighbours();
+	void UpdateFluidDensityAndPressure();
 
 	// kernel constants
 	double mPoly6Coefficient;

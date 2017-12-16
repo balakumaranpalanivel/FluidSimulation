@@ -430,3 +430,26 @@ void CSPHFluidSimulation::UpdateNearestNeighbours()
 		}
 	}
 }
+
+void CSPHFluidSimulation::UpdateFluidDensityAndPressure()
+{
+	// once we find particles density, we can find its pressure
+	SPHParticle *pi, *pj;
+	glm::vec3 r;
+	for (unsigned int i = 0; i < mAllParticles.size(); i++)
+	{
+		pi = mAllParticles[i];
+		double density = 0.0;
+		for (unsigned int j = 0; j < pi->neighbours.size(); j++)
+		{
+			pj = pi->neighbours[j];
+			r = pi->position - pj->position;
+			double distsq = glm::dot(r, r);
+			double diff = mSmoothingRadiusSquared - distsq;
+			density += pj->mass*mPoly6Coefficient*diff*diff*diff;
+		}
+		pi->denstiy = fmax(density, mInitialDensity); // less than initial density
+		// produces negative pressures
+		pi->pressure = mPressureCoefficient*(pi->denstiy - mInitialDensity);
+	}
+}
