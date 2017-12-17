@@ -578,3 +578,19 @@ glm::vec3 CSPHFluidSimulation::CalculateBoundaryAcceleration(SPHParticle *sp)
 	
 	return acceleration;
 }
+
+void CSPHFluidSimulation::UpdateZSortingDistance()
+{
+	if (!mIsCameraInitialised || !mIsTextureInitialised)
+	{
+		return;
+	}
+
+	glm::vec3 r;
+	glm::vec3 cpos = mCamera->position;
+	for (unsigned int i = 0; i < mAllParticles.size(); i++)
+	{
+		r = cpos - mAllParticles[i]->position;
+		mAllParticles[i]->zDistance = glm::dot(r, r);
+	}
+}

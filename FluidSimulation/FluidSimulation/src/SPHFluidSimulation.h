@@ -42,6 +42,11 @@ private:
 	void UpdateFluidAcceleration();
 	glm::vec3 CalculateBoundaryAcceleration(SPHParticle *sp);
 
+	// graphics
+	void UpdateZSortingDistance();
+	bool mIsCameraInitialised = false;
+	bool mIsTextureInitialised = false;
+	CCamera *mCamera;
 
 	// kernel constants
 	double mPoly6Coefficient;
