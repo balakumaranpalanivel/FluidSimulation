@@ -46,6 +46,7 @@ private:
 	void UpdateZSortingDistance();
 	bool IsFluidParticleStuckToBoundary(SPHParticle *sp);
 	void UpdateFluidParticleColorDensity(double dt, SPHParticle *sp);
+	glm::vec3 CalculateFluidParticleColor(SPHParticle *sp);
 	bool mIsCameraInitialised = false;
 	bool mIsTextureInitialised = false;
 	CCamera *mCamera;

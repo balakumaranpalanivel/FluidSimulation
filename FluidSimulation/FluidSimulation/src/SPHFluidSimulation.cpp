@@ -664,3 +664,43 @@ void CSPHFluidSimulation::UpdateFluidParticleColorDensity(double dt,
 	sp->colorDensity = fmax(0.0, sp->colorDensity);
 }
 
+glm::vec3 CSPHFluidSimulation::CalculateFluidParticleColor(SPHParticle *sp)
+{
+	int idxOffset = 50;
+	int maxIdx = mFluidGradient.size() - 1;
+	int minIdx = fmin(0 + idxOffset, maxIdx);
+	double minD = mMinColorDensity;
+	double maxD = mMaxColorDensity;
+	double invDiff = 1 / (maxD - minD);
+	glm::vec3 targetColor;
+	std::array<double, 3> cmin;
+	std::array<double, 3> cmax;
+
+	// update color based upon color density
+	double d = sp->colorDensity;
+	double r = 1 - (d - minD)*invDiff;
+	r = fmax(0.0, r);
+	r = fmin(1.0, r);
+
+	// find target color
+	double lerpVal = Utils::Lerp(minIdx, maxIdx, r);
+	int minCIdx = floor(lerpVal);
+	int maxCIdx = ceil(lerpVal);
+	if (minCIdx == maxCIdx)
+	{
+		cmin = mFluidGradient[minCIdx];
+		targetColor = glm::vec3(cmin[0], cmin[1], cmin[2]);
+	}
+	else
+	{
+		cmin = mFluidGradient[minCIdx];
+		cmax = mFluidGradient[maxCIdx];
+		double f = lerpVal - minCIdx;
+
+		targetColor = glm::vec3(Utils::Lerp(cmin[0], cmax[0], f),
+			Utils::Lerp(cmin[1], cmax[1], f),
+			Utils::Lerp(cmin[2], cmax[2], f));
+	}
+
+	return targetColor;
+}
