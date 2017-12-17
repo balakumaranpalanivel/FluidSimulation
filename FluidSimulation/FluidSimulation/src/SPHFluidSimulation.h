@@ -10,7 +10,7 @@ public:
 	CSPHFluidSimulation(double smoothingRadius);
 	~CSPHFluidSimulation();
 
-	//void Update(float dt);
+	void Update(float dt);
 	//void Draw();
 	//void DrawBounds();
 

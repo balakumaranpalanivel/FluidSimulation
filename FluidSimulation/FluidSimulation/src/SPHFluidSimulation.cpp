@@ -1,5 +1,6 @@
 #include "SPHFluidSimulation.h"
 #include "Configuration.h"
+#include "StopWatch.h"
 
 CSPHFluidSimulation::CSPHFluidSimulation()
 {
@@ -755,5 +756,13 @@ void CSPHFluidSimulation::UpdateGraphics(double dt)
 	UpdateZSortingDistance();
 	UpdateFluidColor(dt);
 	std::sort(mAllParticles.begin(), mAllParticles.end(), CompareByZDistance);
+}
+
+void CSPHFluidSimulation::Update(float dt)
+{
+	UpdateFluidConstants();
+	RemoveSPHParticlesMarkedForRemoval();
+
+	
 }
 
