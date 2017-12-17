@@ -43,6 +43,7 @@ private:
 	glm::vec3 CalculateBoundaryAcceleration(SPHParticle *sp);
 
 	// graphics
+	void UpdateGraphics(double dt);
 	void UpdateZSortingDistance();
 	void UpdateFluidColor(double dt);
 	bool IsFluidParticleStuckToBoundary(SPHParticle *sp);

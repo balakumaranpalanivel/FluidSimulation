@@ -744,3 +744,16 @@ void CSPHFluidSimulation::UpdateFluidColor(double dt)
 		// update fluid alpha
 	}
 }
+
+bool CompareByZDistance(const SPHParticle *p1, const SPHParticle *p2)
+{
+	return p1->zDistance > p2->zDistance;
+}
+
+void CSPHFluidSimulation::UpdateGraphics(double dt)
+{
+	UpdateZSortingDistance();
+	UpdateFluidColor(dt);
+	std::sort(mAllParticles.begin(), mAllParticles.end(), CompareByZDistance);
+}
+
