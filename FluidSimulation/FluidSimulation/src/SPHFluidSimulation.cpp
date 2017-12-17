@@ -704,3 +704,21 @@ glm::vec3 CSPHFluidSimulation::CalculateFluidParticleColor(SPHParticle *sp)
 
 	return targetColor;
 }
+
+void CSPHFluidSimulation::UpdateFluidParticleAlpha(double dt, SPHParticle *sp)
+{
+	sp->isStuckInBoundary = IsFluidParticleStuckToBoundary(sp);
+
+	if (sp->isStuckInBoundary && sp->boundaryAlphaValue > 0.0)
+	{
+		sp->boundaryAlphaValue -= mStuckToBoundaryAlphaVelocity*dt;
+		sp->boundaryAlphaValue = fmax(0.0, sp->boundaryAlphaValue);
+		sp->alpha = Utils::SmoothStep(sp->boundaryAlphaValue);
+	}
+	else if (!sp->isStuckInBoundary && sp->boundaryAlphaValue < 1.0)
+	{
+		sp->boundaryAlphaValue += mStuckToBoundaryAlphaVelocity*dt;
+		sp->boundaryAlphaValue = fmin(1.0, sp->boundaryAlphaValue);
+		sp->alpha = Utils::SmoothStep(sp->boundaryAlphaValue);
+	}
+}
