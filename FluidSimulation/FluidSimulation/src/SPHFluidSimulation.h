@@ -44,6 +44,7 @@ private:
 
 	// graphics
 	void UpdateZSortingDistance();
+	void UpdateFluidColor(double dt);
 	bool IsFluidParticleStuckToBoundary(SPHParticle *sp);
 	void UpdateFluidParticleColorDensity(double dt, SPHParticle *sp);
 	glm::vec3 CalculateFluidParticleColor(SPHParticle *sp);

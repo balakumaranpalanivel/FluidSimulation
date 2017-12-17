@@ -722,3 +722,25 @@ void CSPHFluidSimulation::UpdateFluidParticleAlpha(double dt, SPHParticle *sp)
 		sp->alpha = Utils::SmoothStep(sp->boundaryAlphaValue);
 	}
 }
+
+void CSPHFluidSimulation::UpdateFluidColor(double dt)
+{
+	if (dt == 0) { return; }
+
+	SPHParticle *sp;
+
+	// find target color index in gradient. Lerp between color indices
+	// Move color to target based upon smoothed value of particle density.
+	// Particle density is smoothed by keeping track of acceleration and velocity
+	// of smoothed value changes
+	for (unsigned int i = 0; i < mFluidParticles.size(); i++)
+	{
+		sp = mFluidParticles[i];
+
+		UpdateFluidParticleColorDensity(dt, sp);
+		UpdateFluidParticleAlpha(dt, sp);
+		sp->color = CalculateFluidParticleColor(sp);
+
+		// update fluid alpha
+	}
+}
