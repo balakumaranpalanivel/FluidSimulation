@@ -809,6 +809,36 @@ void CSPHFluidSimulation::Update(float dt)
 
 void CSPHFluidSimulation::UpdateFluidPosition(double dt)
 {
+	SPHParticle *p;
+	for (unsigned int i = 0; i < mFluidParticles.size(); i++)
+	{
+		p = mFluidParticles[i];
 
+		// calculate velocity at half timestep interval for leapfrog integeration
+		if (p->isHalfTimeStepVelocityInitialized)
+		{
+			p->velocityAtHalfTimeStep += (float)dt*p->acceleration;
+		}
+		else
+		{
+			p->velocityAtHalfTimeStep = p->velocity + (float)(0.5*dt)*p->acceleration;
+			p->isHalfTimeStepVelocityInitialized = true;
+		}
+
+		// new position calculated with half time step for leap frog intergeration
+		p->position += (float)dt*p->velocityAtHalfTimeStep;
+
+		// update sph velocity by advancing half time step velocity by
+		// 1/2 interval
+		p->velocity = p->velocityAtHalfTimeStep + (float)(0.5*dt)*p->acceleration;
+		if (glm::length(p->velocity) > mMaximumVelocity)
+		{
+			glm::vec3 unit = glm::normalize(p->velocity);
+			p->velocity = (float)mMaximumVelocity * unit;
+		}
+
+		// TODO
+		//EnforceFluidParticlePositionBounds(p);
+	}
 }
 
