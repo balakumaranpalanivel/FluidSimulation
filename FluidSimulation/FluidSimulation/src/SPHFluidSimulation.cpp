@@ -1,6 +1,7 @@
 #include "SPHFluidSimulation.h"
 #include "Configuration.h"
 #include "StopWatch.h"
+#include <iostream>
 
 CSPHFluidSimulation::CSPHFluidSimulation()
 {
@@ -763,6 +764,51 @@ void CSPHFluidSimulation::Update(float dt)
 	UpdateFluidConstants();
 	RemoveSPHParticlesMarkedForRemoval();
 
-	
+	CStopWatch neighbourTimer = CStopWatch();
+	CStopWatch simulationTimer = CStopWatch();
+	CStopWatch graphicsTimer = CStopWatch();
+
+	int numSteps = 0;
+	double timeLeft = dt;
+	while (timeLeft > 0.0)
+	{
+		neighbourTimer.Start();
+		UpdateGrid();
+		UpdateNearestNeighbours();
+		neighbourTimer.Stop();
+
+		simulationTimer.Start();
+		UpdateFluidDensityAndPressure();
+		UpdateFluidAcceleration();
+
+		// calculate next time step
+		double timeStep = CalculateTimeStep();
+		timeLeft -= timeStep;
+		if (timeLeft < 0.0)
+		{
+			timeStep = timeStep + timeLeft;
+			timeLeft = 0.0;
+		}
+		numSteps += 1;
+
+		UpdateFluidPosition((double)timeStep);
+		UpdateObstacleVelocity((double)timeStep);
+		simulationTimer.Stop();
+	}
+	graphicsTimer.Start();
+	UpdateGraphics(dt);
+	graphicsTimer.Stop();
+
+	mNeighbourSearchTime = neighbourTimer.GetTime();
+	mSimulationTime = simulationTimer.GetTime();
+	mGraphicsUpdateTime = graphicsTimer.GetTime();
+
+	double total = mNeighbourSearchTime + mSimulationTime;
+	std::cout << "Total: " << total << " PCT Neighbour: " << (100 * (mNeighbourSearchTime / total)) << " Particles: " << mAllParticles.size() << std::endl;
+}
+
+void CSPHFluidSimulation::UpdateFluidPosition(double dt)
+{
+
 }
 

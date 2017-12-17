@@ -41,6 +41,7 @@ private:
 	void UpdateFluidDensityAndPressure();
 	void UpdateFluidAcceleration();
 	glm::vec3 CalculateBoundaryAcceleration(SPHParticle *sp);
+	void UpdateFluidPosition(double dt);
 
 	// graphics
 	void UpdateGraphics(double dt);
@@ -117,4 +118,9 @@ private:
 	std::vector<SPHParticle*> mFluidParticles;
 	bool mIsSPHParticleRemoved = false;
 
+	// timing metrics
+	double mNeighbourSearchTime = 0.0;
+	double mSimulationTime = 0.0;
+	double mGraphicsUpdateTime = 0.0;
+	double mGraphicsDrawTime = 0.0;
 };
