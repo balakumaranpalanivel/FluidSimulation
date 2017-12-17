@@ -594,3 +594,19 @@ void CSPHFluidSimulation::UpdateZSortingDistance()
 		mAllParticles[i]->zDistance = glm::dot(r, r);
 	}
 }
+
+bool CSPHFluidSimulation::IsFluidParticleStuckToBoundary(SPHParticle *sp)
+{
+	double r = mStuckToBoundaryRadius;
+	bool isStuck = false;
+	glm::vec3 p = sp->position;
+
+	if (p.x < mXmin + r || p.x > mXmax - r ||
+		p.y < mYmin + r || p.y > mYmax - r ||
+		p.z < mZmin + r || p.z > mZmax - r)
+	{
+		isStuck = true;
+	}
+
+	return isStuck;
+}

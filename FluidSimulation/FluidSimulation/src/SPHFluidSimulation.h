@@ -44,6 +44,7 @@ private:
 
 	// graphics
 	void UpdateZSortingDistance();
+	bool IsFluidParticleStuckToBoundary(SPHParticle *sp);
 	bool mIsCameraInitialised = false;
 	bool mIsTextureInitialised = false;
 	CCamera *mCamera;
