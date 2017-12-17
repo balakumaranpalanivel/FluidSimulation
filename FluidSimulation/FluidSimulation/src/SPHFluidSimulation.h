@@ -45,6 +45,7 @@ private:
 	// graphics
 	void UpdateZSortingDistance();
 	bool IsFluidParticleStuckToBoundary(SPHParticle *sp);
+	void UpdateFluidParticleColorDensity(double dt, SPHParticle *sp);
 	bool mIsCameraInitialised = false;
 	bool mIsTextureInitialised = false;
 	CCamera *mCamera;

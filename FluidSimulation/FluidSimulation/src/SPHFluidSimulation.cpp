@@ -610,3 +610,57 @@ bool CSPHFluidSimulation::IsFluidParticleStuckToBoundary(SPHParticle *sp)
 
 	return isStuck;
 }
+
+void CSPHFluidSimulation::UpdateFluidParticleColorDensity(double dt,
+	SPHParticle *sp)
+{
+	// update color density
+	// find color density target
+	double targetDensity = sp->denstiy;
+	double currentDensity = sp->colorDensity;
+	double desired = targetDensity - currentDensity;
+	if (fabs(desired) < mColorArrivalRadius)
+	{
+		double r = fabs(desired) / mColorArrivalRadius;
+		double newMag = Utils::Lerp(0, mMaxColorVelocity, r);
+		if (desired > 0)
+		{
+			desired = newMag;
+		}
+		else
+		{
+			desired = -newMag;
+		}
+	}
+	else
+	{
+		if (desired > 0)
+		{
+			desired = mMaxColorVelocity;
+		}
+		else
+		{
+			desired = -mMaxColorVelocity;
+		}
+	}
+
+	// color densiry acceleration
+	double acc = desired - sp->colorVelocity;
+	if (fabs(acc) > mMaxColorAcceleration)
+	{
+		if (acc > 0)
+		{
+			acc = mMaxColorAcceleration;
+		}
+		else
+		{
+			acc = -mMaxColorAcceleration;
+		}
+	}
+
+	// update color density velocity and position from acceleration
+	sp->colorVelocity += acc*dt;
+	sp->colorDensity += sp->colorVelocity*dt;
+	sp->colorDensity = fmax(0.0, sp->colorDensity);
+}
+
