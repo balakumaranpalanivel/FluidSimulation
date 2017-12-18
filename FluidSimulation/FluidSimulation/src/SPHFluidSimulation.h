@@ -31,6 +31,7 @@ public:
 	float GetInitialDensity();
 	void SetObstaclePosition(int id, glm::vec3 pos);
 	void TranslateObstacle(int id, glm::vec3 trans);
+	void RotateObstacle(int id, Quaternion q);
 
 private:
 	// Initialise

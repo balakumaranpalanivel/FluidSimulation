@@ -1036,3 +1036,29 @@ void CSPHFluidSimulation::TranslateObstacle(int id, glm::vec3 trans)
 
 	o->position += trans;
 }
+
+void CSPHFluidSimulation::RotateObstacle(int id, Quaternion q)
+{
+	if (mObstaclesByID.find(id) == mObstaclesByID.end())
+	{
+		return;
+	}
+
+	SPHObstacle *o = mObstaclesByID[id];
+	glm::mat4 rot = q.getRotationMatrix();
+
+	SPHParticle *sp;
+	glm::vec3 op = o->position;
+	glm::vec4 p;
+	for (unsigned int i = 0; i<o->particles.size(); i++)
+	{
+		sp = o->particles[i];
+		p = glm::vec4(
+			sp->position.x - op.x,
+			sp->position.y - op.y,
+			sp->position.z - op.z, 1.0);
+		p = rot*p;
+		sp->position = glm::vec3(p.x + op.x, p.y + op.y, p.z + op.z);
+	}
+
+}
