@@ -12,7 +12,7 @@ public:
 
 	void Update(float dt);
 	//void Draw();
-	//void DrawBounds();
+	void DrawBounds();
 
 	int AddObstacleParticles(std::vector<glm::vec3> points);
 	void RemoveObstacle(int id);

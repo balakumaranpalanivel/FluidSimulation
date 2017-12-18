@@ -884,3 +884,12 @@ void CSPHFluidSimulation::EnforceFluidParticlePositionBounds(SPHParticle *p)
 		p->velocity = glm::vec3(p->velocity.x, p->velocity.y, -d*p->velocity.z);
 	}
 }
+
+void CSPHFluidSimulation::DrawBounds()
+{
+	double w = mXmax - mXmin;
+	double h = mYmax - mYmin;
+	double d = mZmax - mZmin;
+	Utils::DrawWireFrameCube(glm::vec3(mXmin+w/2, mYmin+h/2, mZmin+d/2), 
+		w, h, d);
+}
