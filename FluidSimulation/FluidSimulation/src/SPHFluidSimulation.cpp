@@ -932,3 +932,24 @@ void CSPHFluidSimulation::Draw()
 	drawTimer.Stop();
 	mGraphicsDrawTime = drawTimer.GetTime();
 }
+
+void CSPHFluidSimulation::AddFluidParticles(std::vector<glm::vec3> points)
+{
+	for (unsigned int i = 0; i < points.size(); i++)
+	{
+		AddFluidParticle(points[i], glm::vec3(0.0, 0.0, 0.0));
+	}
+}
+
+void CSPHFluidSimulation::AddFluidParticle(glm::vec3 pos, glm::vec3 velocity)
+{
+	SPHParticle *sp = CreateSPHParticle(pos, velocity);
+	sp->isObstacle = false;
+
+	sp->gridID = mGrid.InsertPoint(sp->position);
+	std::pair<int, SPHParticle*> pair(sp->gridID, sp);
+	mParticlesByGridID.insert(pair);
+
+	mFluidParticles.push_back(sp);
+	mAllParticles.push_back(sp);
+}

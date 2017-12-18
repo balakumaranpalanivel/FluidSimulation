@@ -16,6 +16,8 @@ public:
 
 	int AddObstacleParticles(std::vector<glm::vec3> points);
 	void RemoveObstacle(int id);
+	void AddFluidParticles(std::vector<glm::vec3> points);
+	void AddFluidParticle(glm::vec3 pos, glm::vec3 velocity);
 
 private:
 	// Initialise
