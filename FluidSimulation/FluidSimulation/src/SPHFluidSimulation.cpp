@@ -953,3 +953,21 @@ void CSPHFluidSimulation::AddFluidParticle(glm::vec3 pos, glm::vec3 velocity)
 	mFluidParticles.push_back(sp);
 	mAllParticles.push_back(sp);
 }
+
+void CSPHFluidSimulation::SetBounds(double xmin, double xmax,
+	double ymin, double ymax,
+	double zmin, double zmax)
+{
+	mXmin = xmin; mXmax = xmax;
+	mYmin = ymin; mYmax = ymax;
+	mZmin = zmin; mZmax = zmax;
+
+	InitBoundaryParticles();
+
+	mIsEnforcingFluidParticlePositionBoundsThisTimeStep = false;
+}
+
+void CSPHFluidSimulation::SetDampingConstant(double c)
+{
+	mMotionDampingCoefficient = c;
+}

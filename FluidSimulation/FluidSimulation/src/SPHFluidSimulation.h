@@ -18,6 +18,10 @@ public:
 	void RemoveObstacle(int id);
 	void AddFluidParticles(std::vector<glm::vec3> points);
 	void AddFluidParticle(glm::vec3 pos, glm::vec3 velocity);
+	void SetBounds(double xmin, double xmax,
+		double ymin, double ymax,
+		double zmin, double zmax);
+	void SetDampingConstant(double c);
 
 private:
 	// Initialise
