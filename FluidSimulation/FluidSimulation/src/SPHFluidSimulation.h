@@ -11,7 +11,7 @@ public:
 	~CSPHFluidSimulation();
 
 	void Update(float dt);
-	//void Draw();
+	void Draw();
 	void DrawBounds();
 
 	int AddObstacleParticles(std::vector<glm::vec3> points);
@@ -56,6 +56,7 @@ private:
 	bool mIsCameraInitialised = false;
 	bool mIsTextureInitialised = false;
 	CCamera *mCamera;
+	GLuint *mTexture;
 
 	// kernel constants
 	double mPoly6Coefficient;

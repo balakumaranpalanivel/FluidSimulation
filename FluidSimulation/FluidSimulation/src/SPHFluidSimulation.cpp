@@ -893,3 +893,42 @@ void CSPHFluidSimulation::DrawBounds()
 	Utils::DrawWireFrameCube(glm::vec3(mXmin+w/2, mYmin+h/2, mZmin+d/2), 
 		w, h, d);
 }
+
+void CSPHFluidSimulation::Draw()
+{
+	CStopWatch drawTimer = CStopWatch();
+
+	SPHParticle *sp;
+	float size = 0.5*mSmoothingRadius;
+	for (unsigned int i = 0; i < mAllParticles.size(); i++)
+	{
+		sp = mAllParticles[i];
+		glm::vec3 p = sp->position;
+
+		if (sp->isObstacle)
+		{
+			glColor3f(0.5, 0.5, 0.5);
+		}
+		else
+		{
+			if (mIsHiddenBoundaryParticlesEnabled)
+			{
+				glColor4f(sp->color.x, sp->color.y, sp->color.z, sp->alpha);
+			}
+			else
+			{
+				glColor3f(sp->color.x, sp->color.y, sp->color.z);
+			}
+		}
+
+		if (sp->isVisible)
+		{
+			Utils::DrawBillboard(mCamera, mTexture, p, size);
+		}
+	}
+
+	DrawBounds();
+
+	drawTimer.Stop();
+	mGraphicsDrawTime = drawTimer.GetTime();
+}
