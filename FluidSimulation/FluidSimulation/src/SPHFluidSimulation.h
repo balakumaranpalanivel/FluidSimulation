@@ -42,6 +42,8 @@ private:
 	void UpdateFluidAcceleration();
 	glm::vec3 CalculateBoundaryAcceleration(SPHParticle *sp);
 	void UpdateFluidPosition(double dt);
+	void EnforceFluidParticlePositionBounds(SPHParticle *p);
+	bool mIsEnforcingFluidParticlePositionBoundsThisTimeStep = false;
 
 	// graphics
 	void UpdateGraphics(double dt);

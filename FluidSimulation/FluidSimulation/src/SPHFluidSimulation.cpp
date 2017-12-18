@@ -837,8 +837,50 @@ void CSPHFluidSimulation::UpdateFluidPosition(double dt)
 			p->velocity = (float)mMaximumVelocity * unit;
 		}
 
-		// TODO
-		//EnforceFluidParticlePositionBounds(p);
+		EnforceFluidParticlePositionBounds(p);
 	}
 }
 
+void CSPHFluidSimulation::EnforceFluidParticlePositionBounds(SPHParticle *p)
+{
+	if (!mIsEnforcingFluidParticlePositionBoundsThisTimeStep)
+	{
+		mIsEnforcingFluidParticlePositionBoundsThisTimeStep = true;
+		return;
+	}
+
+	double eps = 0.001;
+	float d = mBoundaryDampingCoefficient;
+	if (p->position.x < mXmin)
+	{
+		p->position = glm::vec3(mXmin + eps, p->position.y, p->position.z);
+		p->velocity = glm::vec3(-d*p->velocity.x, p->velocity.y, p->velocity.z);
+	}
+	else if (p->position.x > mXmax)
+	{
+		p->position = glm::vec3(mXmax - eps, p->position.y, p->position.z);
+		p->velocity = glm::vec3(-d*p->velocity.x, p->velocity.y, p->velocity.z);
+	}
+
+	if (p->position.y < mYmin)
+	{
+		p->position = glm::vec3(p->position.x, mYmin + eps, p->position.z);
+		p->velocity = glm::vec3(p->velocity.x, -d*p->velocity.y, p->velocity.z);
+	}
+	else if (p->position.y > mYmax)
+	{
+		p->position = glm::vec3(p->position.x, mYmax - eps, p->position.z);
+		p->velocity = glm::vec3(p->velocity.x, -d*p->velocity.y, p->velocity.z);
+	}
+
+	if (p->position.z < mZmin)
+	{
+		p->position = glm::vec3(p->position.x, p->position.y, mZmin + eps);
+		p->velocity = glm::vec3(p->velocity.x, p->velocity.y, -d*p->velocity.z);
+	}
+	else if (p->position.z > mZmax)
+	{
+		p->position = glm::vec3(p->position.x, p->position.y, mZmax - eps);
+		p->velocity = glm::vec3(p->velocity.x, p->velocity.y, -d*p->velocity.z);
+	}
+}
