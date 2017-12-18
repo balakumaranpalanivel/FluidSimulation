@@ -971,3 +971,15 @@ void CSPHFluidSimulation::SetDampingConstant(double c)
 {
 	mMotionDampingCoefficient = c;
 }
+
+void CSPHFluidSimulation::SetTexture(GLuint *tex)
+{
+	mTexture = tex;
+	mIsTextureInitialized = true;
+}
+
+void CSPHFluidSimulation::SetCamera(CCamera *cam)
+{
+	mCamera = cam;
+	mIsCameraInitialised = true;
+}

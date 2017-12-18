@@ -22,6 +22,8 @@ public:
 		double ymin, double ymax,
 		double zmin, double zmax);
 	void SetDampingConstant(double c);
+	void SetTexture(GLuint *tex);
+	void SetCamera(CCamera *cam);
 
 private:
 	// Initialise
