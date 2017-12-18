@@ -983,3 +983,56 @@ void CSPHFluidSimulation::SetCamera(CCamera *cam)
 	mCamera = cam;
 	mIsCameraInitialised = true;
 }
+
+std::vector<SPHParticle*> CSPHFluidSimulation::GetFluidParticles()
+{
+	return mFluidParticles;
+}
+
+std::vector<SPHParticle*> CSPHFluidSimulation::GetObstacleParticles()
+{
+	return mObstacleParticles;
+}
+
+std::vector<SPHParticle*> CSPHFluidSimulation::GetAllParticles()
+{
+	return mAllParticles;
+}
+
+float CSPHFluidSimulation::GetParticleSize()
+{
+	return mSmoothingRadius;
+}
+
+float CSPHFluidSimulation::GetInitialDensity()
+{
+	return mInitialDensity;
+}
+
+void CSPHFluidSimulation::SetObstaclePosition(int id, glm::vec3 pos)
+{
+	if (mObstaclesByID.find(id) == mObstaclesByID.end()) {
+		return;
+	}
+
+	SPHObstacle *o = mObstaclesByID[id];
+	TranslateObstacle(id, pos - o->position);
+}
+
+void CSPHFluidSimulation::TranslateObstacle(int id, glm::vec3 trans)
+{
+	if (mObstaclesByID.find(id) == mObstaclesByID.end())
+	{
+		return;
+	}
+	SPHObstacle *o = mObstaclesByID[id];
+
+	SPHParticle *sp;
+	for (unsigned int i = 0; i < o->particles.size(); i++)
+	{
+		sp = o->particles[i];
+		sp->position += trans;
+	}
+
+	o->position += trans;
+}

@@ -24,6 +24,13 @@ public:
 	void SetDampingConstant(double c);
 	void SetTexture(GLuint *tex);
 	void SetCamera(CCamera *cam);
+	std::vector<SPHParticle*> GetFluidParticles();
+	std::vector<SPHParticle*> GetObstacleParticles();
+	std::vector<SPHParticle*> GetAllParticles();
+	float GetParticleSize();
+	float GetInitialDensity();
+	void SetObstaclePosition(int id, glm::vec3 pos);
+	void TranslateObstacle(int id, glm::vec3 trans);
 
 private:
 	// Initialise
