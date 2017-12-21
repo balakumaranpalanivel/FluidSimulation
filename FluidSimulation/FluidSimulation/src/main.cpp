@@ -21,7 +21,7 @@
 #include "Controller.h"
 #include "Configuration.h"
 
-CController mainController;
+GLWidget mainController;
 // END_MINE
 
 
@@ -166,49 +166,22 @@ void display(){
 	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
 	glClearColor (0.5f, 0.5f, 0.5f, 1.0f);
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glUseProgram (shaderProgramID);
-
-
-	////Declare your uniform variables that will be used in your shader
-	//int matrix_location = glGetUniformLocation (shaderProgramID, "model");
-	//int view_mat_location = glGetUniformLocation (shaderProgramID, "view");
-	//int proj_mat_location = glGetUniformLocation (shaderProgramID, "proj");
-	
-
-	//Here is where the code for the viewport lab will go, to get you started I have drawn a t-pot in the bottom left
-	//The model transform rotates the object by 45 degrees, the view transform sets the camera at -40 on the z-axis, and the perspective projection is setup using Antons method
-
-	// bottom-left
-	//mat4 view = translate (identity_mat4 (), vec3 (0.0, 0.0, -40.0));
-	//mat4 persp_proj = perspective(45.0, (float)width/(float)height, 0.1, 100.0);
-	//mat4 model = rotate_z_deg (identity_mat4 (), 45);
-
-	//glViewport (0, 0, width / 2, height / 2);
-	//glUniformMatrix4fv (proj_mat_location, 1, GL_FALSE, persp_proj.m);
-	//glUniformMatrix4fv (view_mat_location, 1, GL_FALSE, view.m);
-	//glUniformMatrix4fv (matrix_location, 1, GL_FALSE, model.m);
-	//glDrawArrays (GL_TRIANGLES, 0, teapot_vertex_count);
-
-	// bottom-right
-		
-	// top-left
-
-	// top-right
-
+	mainController.paintGL();
     glutSwapBuffers();
 }
 
 
+double last_time = 0;
 void updateScene() {	
 
-		// Wait until at least 16ms passed since start of last frame (Effectively caps framerate at ~60fps)
-	static double  last_time = 0;
+	// Wait until at least 16ms passed since start of last frame (Effectively caps framerate at ~60fps)
 	double  curr_time = timeGetTime();
 	float  delta = (curr_time - last_time) * 0.001f;
 	if (delta > 0.03f)
-		delta = 0.03f;
-	last_time = curr_time;
-
+	{
+		last_time = curr_time;
+		//mainController.updateSimulation(delta);
+	}
 	// Draw the next frame
 	glutPostRedisplay();
 }
@@ -222,7 +195,7 @@ void init(int argc, char** argv)
 	glutInitWindowSize(Screen::WIDTH, Screen::HEIGHT);
 	glutCreateWindow("Fluid Simulation");
 
-	mainController.InitializeGL();
+	//mainController.initializeGL();
 	
 }
 
