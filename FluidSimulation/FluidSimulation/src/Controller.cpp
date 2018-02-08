@@ -85,6 +85,7 @@
 ****************************************************************************/
 #include <GL\glew.h>
 #include <string>
+#include "BMPLoader.h"
 
 //#include <QtWidgets\qopenglwidget.h>
 //#include <QtGui\qcursor.h>
@@ -354,7 +355,8 @@ void GLWidget::writeFrame() {
 	std::string s = std::to_string(currentFrame);
 	s.insert(s.begin(), 6 - s.size(), '0');
 	//s = "test_render/" + s + ".png";
-	bool r = saveFrameToFile(s + ".png");
+	bool r = saveFrameToFile(s + ".bmp");
+
 	//qDebug() << r << QString::fromStdString(s);
 
 	//// log timings to file
@@ -408,26 +410,28 @@ bool GLWidget::saveFrameToFile(std::string fileName) {
 	glReadPixels(0, 0, screenWidth, screenHeight, GL_RGB,
 		GL_UNSIGNED_BYTE, pixels);
 
-	//convert to BGR format    
-	GLubyte temp;
-	int i = 0;
-	while (i < nSize)
-	{
-		temp = pixels;       //grab blue
-		pixels = pixels[i + 2];//assign red to blue
-		pixels[i + 2] = temp;     //assign blue to red
+	BMPLoader SaveBmp;
+	SaveBmp.SaveBMP(fileName.c_str(), screenWidth, screenHeight, pixels);
+	////convert to BGR format    
+	//GLubyte temp;
+	//int i = 0;
+	//while (i < nSize)
+	//{
+	//	temp = pixels;       //grab blue
+	//	pixels = pixels[i + 2];//assign red to blue
+	//	pixels[i + 2] = temp;     //assign blue to red
 
-		i += 3;     //skip to next blue byte
-	}
+	//	i += 3;     //skip to next blue byte
+	//}
 
-	unsigned char TGAheader[12] = { 0,0,2,0,0,0,0,0,0,0,0,0 };
-	unsigned char header[6] = { int(screenWidth) % 256,screenWidth / 256,
-		int(screenHeight) % 256,screenHeight / 256,24,0 };
+	//unsigned char TGAheader[12] = { 0,0,2,0,0,0,0,0,0,0,0,0 };
+	//unsigned char header[6] = { int(screenWidth) % 256,screenWidth / 256,
+	//	int(screenHeight) % 256,screenHeight / 256,24,0 };
 
-	fwrite(TGAheader, sizeof(unsigned char), 12, fScreenshot);
-	fwrite(header, sizeof(unsigned char), 6, fScreenshot);
-	fwrite(pixels, sizeof(GLubyte), nSize, fScreenshot);
-	fclose(fScreenshot);
+	//fwrite(TGAheader, sizeof(unsigned char), 12, fScreenshot);
+	//fwrite(header, sizeof(unsigned char), 6, fScreenshot);
+	//fwrite(pixels, sizeof(GLubyte), nSize, fScreenshot);
+	//fclose(fScreenshot);
 
 	delete[] pixels;
 
