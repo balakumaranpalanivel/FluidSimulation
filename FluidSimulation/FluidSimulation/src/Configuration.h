@@ -41,7 +41,7 @@ static class SimulationConfig
 public:
 	const float FPS = 120;
 	const float SMOOTHING_RADIUS = 0.2;
-	const int NUM_PARTICLES = 300;
+	const int NUM_PARTICLES = 10000;
 	const float INITIAL_DAMPING_CONSTANT = 2.0;
 	const float FINAL_DAMPING_CONSTANT = 0.0;
 	const bool IS_RENDERING_ENABLED = true;

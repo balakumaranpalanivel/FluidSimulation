@@ -315,12 +315,16 @@ void GLWidget::updateSimulationSettings() {
 	isSimulationDrawn = mSimulationConfig.IS_SIMULATION_DRAWN;
 }
 
+double last_time1 = 0.0f;
+
 void GLWidget::updateSimulation(float dt) {
 
 	// find delta time
-	/*float dt = (float)deltaTimer->elapsed() / 1000;
-	deltaTimer->restart();
-	updateCameraMovement(dt);*/
+	double  curr_time = timeGetTime();
+	float  delta = (curr_time - last_time1) * 0.001f;
+
+	last_time1 = curr_time;
+	updateCameraMovement(delta);
 	fluidSim.SetCamera(&camera);
 
 	dt = 1.0 / simulationFPS;
@@ -355,7 +359,7 @@ void GLWidget::writeFrame() {
 	std::string s = std::to_string(currentFrame);
 	s.insert(s.begin(), 6 - s.size(), '0');
 	//s = "test_render/" + s + ".png";
-	bool r = saveFrameToFile(s + ".bmp");
+	//bool r = saveFrameToFile(s + ".bmp");
 
 	//qDebug() << r << QString::fromStdString(s);
 
