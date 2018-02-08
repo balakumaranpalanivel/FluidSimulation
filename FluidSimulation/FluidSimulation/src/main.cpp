@@ -180,7 +180,7 @@ void updateScene() {
 	if (delta > 0.03f)
 	{
 		last_time = curr_time;
-		//mainController.updateSimulation(delta);
+		mainController.updateSimulation(delta);
 	}
 	// Draw the next frame
 	glutPostRedisplay();
@@ -195,7 +195,7 @@ void init(int argc, char** argv)
 	glutInitWindowSize(Screen::WIDTH, Screen::HEIGHT);
 	glutCreateWindow("Fluid Simulation");
 
-	//mainController.initializeGL();
+	mainController.initializeGL();
 	
 }
 

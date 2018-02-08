@@ -18,12 +18,22 @@ namespace Utils
 
 		glEnable(GL_TEXTURE_2D);
 		glDisable(GL_LIGHTING);
-		glBindTexture(GL_TEXTURE_2D, tex[0]);
+		//glBindTexture(GL_TEXTURE_2D, tex[0]);
+
+		glBegin(GL_POINTS);
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(p.x, p.y, p.z);
+		glEnd();
+
 		glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-hw, -hw, 0.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(hw, -hw, 0.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(hw, hw, 0.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-hw, hw, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-hw, -hw, 0.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f(hw, -hw, 0.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f(hw, hw, 0.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f(-hw, hw, 0.0f);
 		glEnd();
 		glEnable(GL_LIGHTING);
 		glDisable(GL_TEXTURE_2D);

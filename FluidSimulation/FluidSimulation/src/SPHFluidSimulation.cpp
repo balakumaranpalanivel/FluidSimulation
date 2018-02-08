@@ -341,7 +341,7 @@ void CSPHFluidSimulation::UpdateObstacleVelocity(double dt)
 	for (unsigned int i = 0; i < mObstacles.size(); i++)
 	{
 		obs = mObstacles[i];
-		for (unsigned int j = 0; i < obs->particles.size(); j++)
+		for (unsigned int j = 0; j < obs->particles.size(); j++)
 		{
 			sp = obs->particles[j];
 			if (sp->position == sp->prevPosition)
@@ -426,7 +426,7 @@ void CSPHFluidSimulation::UpdateNearestNeighbours()
 		sp = mAllParticles[i];
 		sp->neighbours.clear();
 		std::vector<int> refs = mGrid.GetIDsInRadiusOfPoint(sp->gridID, mSmoothingRadius);
-		for (unsigned int j = 0; i < refs.size(); j++)
+		for (unsigned int j = 0; j < refs.size(); j++)
 		{
 			sp->neighbours.push_back(mParticlesByGridID[refs[j]]);
 		}
@@ -467,7 +467,7 @@ void CSPHFluidSimulation::UpdateFluidAcceleration()
 		pi = mFluidParticles[i];
 		acc = glm::vec3(0.0, 0.0, 0.0);
 
-		for (unsigned int j = 0; i < pi->neighbours.size(); j++)
+		for (unsigned int j = 0; j < pi->neighbours.size(); j++)
 		{
 			pj = pi->neighbours[j];
 			r = pi->position - pj->position;
@@ -904,7 +904,7 @@ void CSPHFluidSimulation::Draw()
 	{
 		sp = mAllParticles[i];
 		glm::vec3 p = sp->position;
-
+		//std::cout << "Particle Position - " << p.x <<" "<< p.y << " "<< p.z << std::endl;
 		if (sp->isObstacle)
 		{
 			glColor3f(0.5, 0.5, 0.5);
@@ -919,6 +919,7 @@ void CSPHFluidSimulation::Draw()
 			{
 				glColor3f(sp->color.x, sp->color.y, sp->color.z);
 			}
+
 		}
 
 		if (sp->isVisible)

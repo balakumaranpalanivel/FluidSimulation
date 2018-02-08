@@ -84,6 +84,7 @@
 **
 ****************************************************************************/
 #include <GL\glew.h>
+#include <string>
 
 //#include <QtWidgets\qopenglwidget.h>
 //#include <QtGui\qcursor.h>
@@ -172,8 +173,8 @@ void GLWidget::initializeGL()
 	//glBindTexture(texture[0], GL_TEXTURE_2D);
 	//fluidSim.SetTexture(&texture[0]);
 
-	GLuint temp = 0;
-	fluidSim.SetTexture(&temp);
+	//GLuint temp = 0;
+	//fluidSim.SetTexture(&temp);
 
 	static const GLfloat lightPos[4] = { 20.0f, 20.0f, 20.0f, 1.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
@@ -214,7 +215,6 @@ void GLWidget::initializeSimulation()
 	simulationFPS = mSimulationConfig.FPS;
 	isSimulationPaused = mSimulationConfig.IS_SIMULATION_PAUSED;
 
-
 	double radius = mSimulationConfig.SMOOTHING_RADIUS;
 	fluidSim = CSPHFluidSimulation(radius);
 
@@ -248,6 +248,7 @@ void GLWidget::initializeSimulation()
 	maxColorDensity = mGraphicsConfig.MAX_COLOR_DENSITY;
 
 	// create obstacles
+	/*
 	float widthPad = 0.2;
 	float heightPad = 0.4;
 	float width = (maxz - minz) / 3 + widthPad;
@@ -282,7 +283,7 @@ void GLWidget::initializeSimulation()
 	//fluidSim.translateObstacle(id1, p1);
 	fluidSim.TranslateObstacle(id2, p2);
 	//fluidSim.translateObstacle(id3, p3);
-
+	*/
 
 }
 
@@ -342,7 +343,7 @@ void GLWidget::updateSimulation(float dt) {
 		writeFrame();
 	}
 	else {
-		paintGL();
+		writeFrame();
 	}
 }
 
@@ -350,10 +351,10 @@ void GLWidget::writeFrame() {
 	paintGL();
 
 	// image file name
-	//std::string s = std::to_string(currentFrame);
-	//s.insert(s.begin(), 6 - s.size(), '0');
+	std::string s = std::to_string(currentFrame);
+	s.insert(s.begin(), 6 - s.size(), '0');
 	//s = "test_render/" + s + ".png";
-	//bool r = saveFrameToFile(QString::fromStdString(s));
+	bool r = saveFrameToFile(s + ".png");
 	//qDebug() << r << QString::fromStdString(s);
 
 	//// log timings to file
@@ -383,11 +384,64 @@ void GLWidget::writeFrame() {
 	currentFrame += 1;
 }
 
-bool GLWidget::saveFrameToFile() {
+bool GLWidget::saveFrameToFile(std::string fileName) {
 	//GLubyte *data = (GLubyte*)malloc(4 * (int)screenWidth*(int)screenHeight);
 	//if (data) {
 	//	glReadPixels(0, 0, screenWidth, screenHeight,
 	//		GL_RGBA, GL_UNSIGNED_BYTE, data);
+	//}
+
+	FILE *fScreenshot;
+	int nSize = screenWidth * screenHeight * 3;
+
+	GLubyte *pixels = new GLubyte[nSize];
+	if (pixels == NULL)
+		return false;
+	fScreenshot = fopen(fileName.c_str(), "w+");
+	if (fScreenshot == NULL)
+		return false;
+	else 
+		fclose(fScreenshot);
+
+	fScreenshot = fopen(fileName.c_str(), "r+");
+
+	glReadPixels(0, 0, screenWidth, screenHeight, GL_RGB,
+		GL_UNSIGNED_BYTE, pixels);
+
+	//convert to BGR format    
+	GLubyte temp;
+	int i = 0;
+	while (i < nSize)
+	{
+		temp = pixels;       //grab blue
+		pixels = pixels[i + 2];//assign red to blue
+		pixels[i + 2] = temp;     //assign blue to red
+
+		i += 3;     //skip to next blue byte
+	}
+
+	unsigned char TGAheader[12] = { 0,0,2,0,0,0,0,0,0,0,0,0 };
+	unsigned char header[6] = { int(screenWidth) % 256,screenWidth / 256,
+		int(screenHeight) % 256,screenHeight / 256,24,0 };
+
+	fwrite(TGAheader, sizeof(unsigned char), 12, fScreenshot);
+	fwrite(header, sizeof(unsigned char), 6, fScreenshot);
+	fwrite(pixels, sizeof(GLubyte), nSize, fScreenshot);
+	fclose(fScreenshot);
+
+	delete[] pixels;
+
+	return true;
+	//convert to BGR format    
+	//GLubyte temp;
+	//int i = 0;
+	//while (i < nSize)
+	//{
+	//	temp = pixels;       //grab blue
+	//	pixels = pixels[i + 2];//assign red to blue
+	//	pixels[i + 2] = temp;     //assign blue to red
+
+	//	i += 3;     //skip to next blue byte
 	//}
 
 	//QImage image((int)screenWidth, (int)screenHeight, QImage::Format_RGB32);
@@ -415,7 +469,7 @@ bool GLWidget::saveFrameToFile() {
 void GLWidget::paintGL()
 {
 	camera.set();
-	//utils::drawGrid();
+	Utils::DrawGrid();
 
 	float scale = 2.0;
 	glm::mat4 scaleMat = glm::transpose(glm::mat4(scale, 0.0, 0.0, 0.0,
@@ -436,8 +490,6 @@ void GLWidget::paintGL()
 	glPointSize(6.0);
 
 	glPopMatrix();
-
-
 
 	camera.unset();
 }

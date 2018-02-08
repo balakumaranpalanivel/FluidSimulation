@@ -111,7 +111,7 @@ private:
 	void updateSimulationSettings();
 	void stopSimulation();
 	void writeFrame();
-	bool saveFrameToFile();
+	bool saveFrameToFile(std::string fileName);
 	bool isRendering = false;
 
 	//// update/draw tiemrs
