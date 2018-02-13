@@ -12,4 +12,5 @@ This project implements a simple SPH Fluid Simulation technique.
 
 ### Demo
 
-* Demo - https://youtu.be/-ffkPIywBvI
+* Simulation of 10,000 particles. - https://youtu.be/fxOu587Uptc
+* Simulation of 1000 particles - https://youtu.be/UrZReKTPiC0
